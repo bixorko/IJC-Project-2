@@ -18,33 +18,53 @@ using std::ifstream;
 #include <string>
 using std::string;
 using std::getline;
+#include <string.h>
 
 int fileLoad(const char *filename);
 int stdinLoad(queue<string>& q);
 void printDefaultTail(char *argv[]);
 void printDefaultTailStdin();
-void printDefaultN(char *argv[]);
+void printDefaultNStdin(char *argv[]);
 void printDefaultNFile(char *argv[]);
+void printWithPlusFile(char *argv[]);
+void printWithPlusStdin(char *argv[]);
 
 int main(int argc, char *argv[])
 {
     std::ios::sync_with_stdio(false);
 
-    //TODO DOROBIT '+' TAIL
     if (argc == 1)
         printDefaultTailStdin();
 
-    //TODO DOROBIT '+' TAIL
     else if (argc == 2)
         printDefaultTail(argv);
 
-    //TODO DOROBIT '+' TAIL
-    else if (argc == 3)
-        printDefaultN(argv);
+    else if (argc == 3){
+        if (strcmp(argv[1],"-n") != 0 || !(strtol(argv[2], NULL, 10))) {
+            fprintf(stderr, "Zle zadane argumenty\n");
+            return -1;
+        }
 
-    //TODO DOROBIT '+' TAIL
+        if (argv[2][0] == '+') {
+            printWithPlusStdin(argv);
+        }
+        else{
+            printDefaultNStdin(argv);
+        }
+    }
+
     else if (argc == 4){
-        printDefaultNFile(argv);
+        if (strcmp(argv[1],"-n") != 0 || !(strtol(argv[2], NULL, 10))) {
+            fprintf(stderr, "Zle zadane argumenty\n");
+            return -1;
+        }
+
+        if (argv[2][0] == '+') {
+            printWithPlusFile(argv);
+        }
+        else{
+            printDefaultNFile(argv);
+        }
     }
 
     else{
@@ -110,12 +130,14 @@ void printDefaultTailStdin()
     }
 }
 
-void printDefaultN(char *argv[])
+void printDefaultNStdin(char *argv[])
 {
     queue<string> q;
     int count = stdinLoad(q);
+    int pom = (int) strtol(argv[2], NULL, 10);
+    pom = abs(pom);
 
-    for (int i = 0; i < count - (strtol(argv[2],NULL,10)); i++) {
+    for (int i = 0; i < count - pom; i++) {
         q.pop();
     }
 
@@ -130,12 +152,43 @@ void printDefaultNFile(char *argv[])
     int count = fileLoad(argv[3]);
     ifstream myfile(argv[3]);
     string line;
+    int pom = (int) strtol(argv[2], NULL, 10);
+    pom = abs(pom);
 
-    for (int i = 0; i < count - (strtol(argv[2],NULL,10)); i++) {
+    for (int i = 0; i < count - pom; i++) {
         getline(myfile, line);
     }
 
     while (getline(myfile, line)){
         cout << line << "\n";
+    }
+}
+
+void printWithPlusFile(char *argv[])
+{
+    ifstream myfile(argv[3]);
+    string line;
+
+    for (int i = 0; i < (strtol(argv[2],NULL,10)-1); i++) {
+        getline(myfile, line);
+    }
+
+    while (getline(myfile, line)){
+        cout << line << "\n";
+    }
+}
+
+void printWithPlusStdin(char *argv[])
+{
+    queue<string> q;
+    stdinLoad(q);
+
+    for (int i = 0; i < (strtol(argv[2], NULL, 10)-1); i++) {
+        q.pop();
+    }
+
+    while(!q.empty()){
+        cout << q.front() << "\n";
+        q.pop();
     }
 }
