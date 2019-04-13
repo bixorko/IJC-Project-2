@@ -30,15 +30,19 @@ int main(int argc, char *argv[])
 {
     std::ios::sync_with_stdio(false);
 
+    //TODO DOROBIT '+' TAIL
     if (argc == 1)
         printDefaultTailStdin();
 
+    //TODO DOROBIT '+' TAIL
     else if (argc == 2)
         printDefaultTail(argv);
 
+    //TODO DOROBIT '+' TAIL
     else if (argc == 3)
         printDefaultN(argv);
 
+    //TODO DOROBIT '+' TAIL
     else if (argc == 4){
         printDefaultNFile(argv);
     }
