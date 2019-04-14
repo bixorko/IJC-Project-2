@@ -4,7 +4,7 @@
 htab_t *htab_init(size_t n)
 {
     htab_t *t;
-    t = malloc(sizeof(struct htab) + (sizeof(struct htab_item) * n));
+    t = malloc(sizeof(struct htab) + (sizeof(struct htab_item)*n));
     if (t == NULL){
         fprintf(stderr, "Nepodarilo sa naalokovat potrebnu pamat!\n");
         return NULL;
