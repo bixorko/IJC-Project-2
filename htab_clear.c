@@ -12,15 +12,13 @@ void htab_clear(htab_t * t)
     while(i < iterator){
 
         toDelete = t->ptr[i];
-        while(toDelete != NULL){
+        while(toDelete){
             temp = toDelete->next;
             free(toDelete);
             toDelete = temp;
         }
-
+        (t->arr_size)--;
         i++;
     }
-
-    free(t);
 }
 
