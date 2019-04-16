@@ -31,8 +31,6 @@ void printWithPlusStdin(char *argv[]);
 
 int main(int argc, char *argv[])
 {
-    std::ios::sync_with_stdio(false);
-
     if (argc == 1)
         printDefaultTailStdin();
 

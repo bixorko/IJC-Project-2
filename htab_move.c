@@ -5,14 +5,14 @@ htab_t *htab_move(size_t n, htab_t *from)
 {
     int i = 0;
     struct htab_item *temp;
-    htab_t *t;
-    t = htab_init(n);
+    htab_t *table;
+    table = htab_init(n);
     size_t iterator = from->arr_size;
 
     while (i < iterator){
         temp = from->ptr[i];
         while(temp != NULL){
-            t->ptr[i] = temp;
+            table->ptr[i] = temp;
             temp = temp->next;
         }
         i++;
@@ -20,5 +20,5 @@ htab_t *htab_move(size_t n, htab_t *from)
 
     htab_clear(from);
 
-    return t;
+    return table;
 }

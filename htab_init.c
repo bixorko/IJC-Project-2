@@ -3,14 +3,21 @@
 
 htab_t *htab_init(size_t n)
 {
-    htab_t *t;
-    t = malloc(sizeof(struct htab) + (sizeof(struct htab_item)*n));
-    if (t == NULL){
+    htab_t *table;
+    table = malloc(sizeof(struct htab) + (sizeof(struct htab_item)*n));
+    if (table == NULL){
         fprintf(stderr, "Nepodarilo sa naalokovat potrebnu pamat!\n");
         return NULL;
     }
 
-    t->arr_size = n;
+    table->arr_size = n;
 
-    return t;
+    struct htab_item *item = malloc(sizeof(struct htab_item));
+    item->key = "dememnt";
+    table->ptr[0] = item;
+    printf("%s", table->ptr[0]->key);
+
+    printf("%d\n", (int)table->arr_size);
+
+    return table;
 }
