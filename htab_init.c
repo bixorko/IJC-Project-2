@@ -11,13 +11,7 @@ htab_t *htab_init(size_t n)
     }
 
     table->arr_size = n;
-
-    struct htab_item *item = malloc(sizeof(struct htab_item));
-    item->key = "dememnt";
-    table->ptr[0] = item;
-    printf("%s", table->ptr[0]->key);
-
-    printf("%d\n", (int)table->arr_size);
+    table->size = 0;
 
     return table;
 }

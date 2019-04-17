@@ -1,7 +1,7 @@
 #include "htab.h"
 
 struct htab_item{
-    char *key;
+    const char *key;
     unsigned int data;
     struct htab_item *next;
 };
