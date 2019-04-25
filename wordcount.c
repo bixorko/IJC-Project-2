@@ -23,7 +23,15 @@ int main(int argc, char **argv)
     }
 
     char s[128];
-    htab_t *table = htab_init(10000);
+
+    /**
+        kedze dopredu nevieme velkost suboru, resp kolko slov sa bude nachadzat v zadanom texte, musime len odhadnut velkost
+        na: http://cseweb.ucsd.edu/~kube/cls/100/Lectures/lec16/lec16-8.html som nasiel, ze udajne by sme sa mali riadit pravidlom
+        ze dlzka ma byt 1.3x vacsia ako pocet klucov, ktore budu v tabulke a dalej by mala byt velkost hashovacej tabulky prvocislo
+        tak som zvolil 10007 co mi pride dostatocna velkost na danu ulohu
+    **/
+
+    htab_t *table = htab_init(10007);
     htab_iterator_t tab;
 
     FILE *f;

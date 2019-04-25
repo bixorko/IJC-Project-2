@@ -54,9 +54,6 @@ htab_iterator_t htab_lookup_add(htab_t * t, const char *key)
     temp.t = t;
     temp.idx = (int)index;
 
-    //free(item->key);
-    //free(item);
-
     return temp;
 }
 
