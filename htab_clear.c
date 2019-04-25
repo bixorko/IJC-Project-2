@@ -1,5 +1,4 @@
 #include "htab.h"
-//#include "htab_structures.h"
 
 void htab_clear(htab_t * t)
 {
@@ -9,14 +8,13 @@ void htab_clear(htab_t * t)
 
     struct htab_item *toDelete;
     struct htab_item *temp;
+    toDelete = table->ptr[i];
     size_t iterator = table->arr_size;
 
     while(i < iterator){
 
-        toDelete = table->ptr[i];
         while(toDelete){
             temp = toDelete->next;
-            free(toDelete);
             toDelete = temp;
         }
         (table->arr_size)--;

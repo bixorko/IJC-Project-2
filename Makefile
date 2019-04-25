@@ -23,5 +23,5 @@ clean:
 
 run : 
 	make
-	valgrind ./tail2 -n -3 textfile
+	valgrind ./tail -n -3 textfile
 	valgrind ./tail2 -n -3 <textfile

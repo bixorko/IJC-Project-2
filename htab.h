@@ -33,7 +33,7 @@ unsigned int htab_hash_function(const char *str);
 /// funkce pro práci s tabulkou:
 htab_t *htab_init(size_t n);
 
-htab_t *htab_move(size_t n, htab_t *from);
+//htab_t *htab_move(size_t n, htab_t *from);
 
 size_t htab_size(const htab_t * t);             // počet záznamů v tabulce
 

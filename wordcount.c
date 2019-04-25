@@ -3,78 +3,56 @@
 #include "htab_free.c"
 #include "htab_clear.c"
 #include "htab_hash_function.c"
+#include "htab_lookup_add.c"
+#include "htab_bucket_count.c"
+#include "htab_size.c"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-
-char *fileLoad(char *file, int *count);
+#include "io.c"
 
 int main(int argc, char **argv)
 {
-    htab_t *table = htab_init(5);
+    char s[128];
+    htab_t *table = htab_init(10000);
+    htab_iterator_t tab;
+    /*const char *key = "jozko";
+    htab_iterator_t tab = htab_lookup_add(table, key);*/
+
+    //printf("%d\n", tab.ptr->data);
+
+    /*htab_iterator_t tab2 = htab_lookup_add(table, key);
+    htab_iterator_t tab3 = htab_lookup_add(table, "jozko");
+    htab_iterator_t tab4 = htab_lookup_add(table, "demetiatsgitastas");
+    printf("%s\n", tab.ptr->key);
+    printf("%s\n", tab4.ptr->key);
+    printf("%d\n", tab.ptr->data);
+    printf("%d\n", tab4.ptr->data);*/
+
+    FILE *f;
+    f = fopen(argv[1], "r");
+
+    while(get_word(s,f) != EOF){
+        tab = htab_lookup_add(table, s);
+        //printf("%s    %d\n", tab.ptr->key, tab.ptr->data);
+    }
+
+   // printf("%s", table->ptr[4]->key);
 
 
+    int i = 0;
+    int j = 0;
+    while (i < table->arr_size){
+        while (table->ptr[i] != NULL){
+            printf("%d:   %s    %d\n",i, table->ptr[i]->key, table->ptr[i]->data);
+            table->ptr[i] = table->ptr[i]->next;
+        }
+        i++;
+    }
+
+    unsigned long retard = htab_bucket_count(table);
+    unsigned long debil = htab_size(table);
 
     htab_free(table);
     return 0;
-}
-
-char *fileLoad(char *file, int *count)
-{
-    int counter = 0;
-    int warning = 0;
-    int lineBreak = 0;
-    int c;
-    size_t n = 0;
-    size_t max = 1024;
-    char *text = malloc(sizeof(text) * max);
-
-    if (text == NULL){
-        fprintf(stderr, "Nepodarilo sa naalokovat potrebnu pamat\n");
-        return NULL;
-    }
-
-    FILE *pFile;
-    pFile = fopen(file,"r");
-
-    if (pFile == NULL){
-        fprintf(stderr, "Nepodarilo sa otvorit subor\n");
-        return NULL;
-    }
-
-    while ((c = fgetc(pFile)) != EOF){
-        if (lineBreak == 1024 && c != '\n'){
-            warning += 1;
-            if (warning == 1){
-                fprintf(stderr,"Riadok je dlhsi ako 1023 znakov, zvysna cast bude ignorovana\n");
-            }
-            text[n] = '\n';
-            while((c = fgetc(pFile)) != '\n'){
-
-            }
-            lineBreak = 0;
-        }
-
-        text[n] = c;
-
-        if (c == '\n'){
-            counter++;
-            lineBreak = 0;
-        }
-        if (n == max) {
-            max += max;
-            text = realloc(text, max*sizeof(char*));
-            if (text == NULL){
-                fprintf(stderr, "Nepodarilo sa realokovat pamat\n");
-                return NULL;
-            }
-        }
-        n++;
-        lineBreak++;
-    }
-    text[n] = 0;
-    *count = counter;
-
-    fclose(pFile);
-    return text;
 }
