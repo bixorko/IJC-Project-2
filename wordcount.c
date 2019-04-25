@@ -5,6 +5,7 @@
 #include "htab_hash_function.c"
 #include "htab_lookup_add.c"
 #include "htab_bucket_count.c"
+#include "htab_iterator_next.c"
 #include "htab_size.c"
 #include <stdio.h>
 #include <string.h>
@@ -13,46 +14,43 @@
 
 int main(int argc, char **argv)
 {
+    if (argc != 2){
+        fprintf(stderr, "Zle zadany pocet argumentov!\n");
+        return -1;
+    }
+
     char s[128];
     htab_t *table = htab_init(10000);
     htab_iterator_t tab;
-    /*const char *key = "jozko";
-    htab_iterator_t tab = htab_lookup_add(table, key);*/
-
-    //printf("%d\n", tab.ptr->data);
-
-    /*htab_iterator_t tab2 = htab_lookup_add(table, key);
-    htab_iterator_t tab3 = htab_lookup_add(table, "jozko");
-    htab_iterator_t tab4 = htab_lookup_add(table, "demetiatsgitastas");
-    printf("%s\n", tab.ptr->key);
-    printf("%s\n", tab4.ptr->key);
-    printf("%d\n", tab.ptr->data);
-    printf("%d\n", tab4.ptr->data);*/
 
     FILE *f;
     f = fopen(argv[1], "r");
 
-    while(get_word(s,f) != EOF){
-        tab = htab_lookup_add(table, s);
-        //printf("%s    %d\n", tab.ptr->key, tab.ptr->data);
+    if (f == NULL){
+        fprintf(stderr, "Nepodarilo sa otvorit subor\n");
+        htab_free(table);
+        return -1;
     }
 
-   // printf("%s", table->ptr[4]->key);
+    while(get_word(s,128,f) != EOF){
+        tab = htab_lookup_add(table, s);
+        if (tab.ptr->key == NULL){
+            htab_free(table);
+            fclose(f);
+            return -1;
+        }
+    }
 
-
-    int i = 0;
-    int j = 0;
+    unsigned int i = 0;
     while (i < table->arr_size){
         while (table->ptr[i] != NULL){
-            printf("%d:   %s    %d\n",i, table->ptr[i]->key, table->ptr[i]->data);
+            printf("%s\t%d\n", table->ptr[i]->key, table->ptr[i]->data);
             table->ptr[i] = table->ptr[i]->next;
         }
         i++;
     }
 
-    unsigned long retard = htab_bucket_count(table);
-    unsigned long debil = htab_size(table);
-
     htab_free(table);
+    fclose(f);
     return 0;
 }

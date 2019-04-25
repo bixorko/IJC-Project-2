@@ -54,6 +54,7 @@ inline bool htab_iterator_valid(htab_iterator_t it) {
 inline bool htab_iterator_equal(htab_iterator_t it1, htab_iterator_t it2) {
     return it1.ptr==it2.ptr && it1.t == it2.t;
 }
+
 const char * htab_iterator_get_key(htab_iterator_t it);
 
 int htab_iterator_get_value(htab_iterator_t it);
