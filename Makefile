@@ -5,7 +5,7 @@ CPFLAGS=-std=c++11 -pedantic -Wall -Wextra -O2
 LIB=htab_lookup_add.o htab_iterator_next.o htab_iterator_get_key.o htab_iterator_get_value.o htab_iterator_set_value.o htab_init.o htab_hash_function.o htab_size.o htab_bucket_count.o htab_end.o htab_begin.o htab_clear.o htab_free.o
 LIBDYN=htab_lookup_add_dyn.o htab_iterator_next_dyn.o htab_iterator_get_key_dyn.o htab_iterator_get_value_dyn.o htab_iterator_set_value_dyn.o htab_init_dyn.o htab_hash_function_dyn.o htab_size_dyn.o htab_bucket_count_dyn.o htab_end_dyn.o htab_begin_dyn.o htab_clear_dyn.o htab_free_dyn.o
 
-all: tail tail2 wordcount wordcount-dynamic libhtab.a libhtab.so
+all: tail tail2 wordcount wordcount-dynamic libhtab.a libhtab.so xvinar00.zip
 
 tail: tail.o
 	$(CC) $(CFLAGS) -o tail tail.o
@@ -115,6 +115,9 @@ htab_clear_dyn.o: htab_clear.c
 htab_free_dyn.o: htab_free.c  
 	$(CC) $(CFLAGS) -fPIC -c htab_free.c -o $@
 
+xvinar00.zip:
+	zip xvinar00.zip *.cc *.c *.h Makefile
+
 clean:
-	rm -f *.o
+	rm -f *.o 
 	clear
