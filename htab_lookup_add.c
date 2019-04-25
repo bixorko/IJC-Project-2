@@ -6,23 +6,19 @@ htab_iterator_t htab_lookup_add(htab_t * t, const char *key)
 {
     size_t index = htab_hash_function(key) % t->arr_size;                           //index do tabulkky
 
-    htab_iterator_t *temp = malloc(sizeof(htab_iterator_t));
-    if (temp == NULL){
-        errormsg();
-        return *temp;
-    }
+    htab_iterator_t temp = {0};
 
     struct htab_item *item;                                                         //item pre iterovanie cez polozky
     item = t->ptr[index];
 
     while (item != NULL){
         if (!strcmp(item->key, key)){
-            temp->t = t;
-            temp->ptr = t->ptr[index];
-            strcpy((char*)temp->ptr->key, (char*)key);
-            temp->ptr->next = item->next;
+            temp.t = t;
+            temp.ptr = t->ptr[index];
+            strcpy((char*)temp.ptr->key, (char*)key);
+            temp.ptr->next = item->next;
 
-            return *temp;
+            return temp;
         }
 
         item = item->next;
@@ -31,14 +27,12 @@ htab_iterator_t htab_lookup_add(htab_t * t, const char *key)
     item = malloc(sizeof(struct htab_item));
     if (item == NULL){
         errormsg();
-        temp = NULL;
-        return *temp;
+        return temp;
     }
 
     item->key = malloc(strlen(key)+1);
     if (item->key == NULL){
-        temp = NULL;
-        return *temp;
+        return temp;
     }
 
     strcpy((char*)item->key, (char*)key);
@@ -46,11 +40,14 @@ htab_iterator_t htab_lookup_add(htab_t * t, const char *key)
 
     t->ptr[index] = item;
 
-    temp->ptr = item;
-    temp->t = t;
-    temp->idx = (int)index;
+    temp.ptr = item;
+    temp.t = t;
+    temp.idx = (int)index;
 
-    return *temp;
+    //free(item->key);
+    //free(item);
+
+    return temp;
 }
 
 void errormsg()

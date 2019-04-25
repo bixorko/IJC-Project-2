@@ -53,7 +53,8 @@ int main(int argc, char **argv)
         while (table->ptr[i] != NULL){
             tab.ptr = table->ptr[i];
             printf("%s\t%d\n", htab_iterator_get_key(tab), htab_iterator_get_value(tab));
-            table->ptr[i] = table->ptr[i]->next;
+            tab = htab_iterator_next(tab);
+            table->ptr[i] = tab.ptr;
         }
         i++;
     }
