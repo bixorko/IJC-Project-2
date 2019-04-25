@@ -49,7 +49,8 @@ int main(int argc, char **argv)
     }
 
     unsigned int i = 0;
-    while (i < table->arr_size){
+    size_t iterator = htab_bucket_count(table);
+    while (i < iterator){
         while (table->ptr[i] != NULL){
             tab.ptr = table->ptr[i];
             printf("%s\t%d\n", htab_iterator_get_key(tab), htab_iterator_get_value(tab));
