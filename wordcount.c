@@ -15,13 +15,8 @@
 #include <string.h>
 #include <ctype.h>
 
-int main(int argc, char **argv)
+int main()
 {
-    if (argc > 2){
-        fprintf(stderr, "Zle zadany pocet argumentov!\n");
-        return -1;
-    }
-
     char s[128];
 
     /**
@@ -35,73 +30,30 @@ int main(int argc, char **argv)
     htab_iterator_t tab;
 
     ///////////////////////////////////////////////////////////////////////////
-    ///                                 SUBOR                               ///
-    ///////////////////////////////////////////////////////////////////////////
-
-    if (argc == 2) {
-        FILE *f;
-        f = fopen(argv[1], "r");
-
-        if (f == NULL) {
-            fprintf(stderr, "Nepodarilo sa otvorit subor\n");
-            htab_free(table);
-            return -1;
-        }
-
-        while (get_word(s, 127, f) != EOF) {
-            tab = htab_lookup_add(table, s);
-            tab.ptr->data = (unsigned int) htab_iterator_set_value(tab, 1);
-            if (tab.ptr->key == NULL) {
-                htab_free(table);
-                fclose(f);
-                return -1;
-            }
-        }
-
-        unsigned int i = 0;
-        size_t iterator = htab_bucket_count(table);
-        while (i < iterator){
-            while (table->ptr[i] != NULL){
-                tab.ptr = table->ptr[i];
-                printf("%s\t%d\n", htab_iterator_get_key(tab), htab_iterator_get_value(tab));
-                tab = htab_iterator_next(tab);
-                table->ptr[i] = tab.ptr;
-            }
-            i++;
-        }
-
-        htab_free(table);
-        fclose(f);
-        return 0;
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
     ///                              ONLY STDIN                             ///
     ///////////////////////////////////////////////////////////////////////////
 
-    if (argc == 1){
-        while (get_word(s, 127, stdin) != EOF) {
-            tab = htab_lookup_add(table, s);
-            tab.ptr->data = (unsigned int) htab_iterator_set_value(tab, 1);
-            if (tab.ptr->key == NULL) {
-                htab_free(table);
-                return -1;
-            }
+    while (get_word(s, 127, stdin) != EOF) {
+        tab = htab_lookup_add(table, s);
+        tab.ptr->data = (unsigned int) htab_iterator_set_value(tab, 1);
+        if (tab.ptr->key == NULL) {
+            htab_free(table);
+            return -1;
         }
-
-        unsigned int i = 0;
-        size_t iterator = htab_bucket_count(table);
-        while (i < iterator){
-            while (table->ptr[i] != NULL){
-                tab.ptr = table->ptr[i];
-                printf("%s\t%d\n", htab_iterator_get_key(tab), htab_iterator_get_value(tab));
-                tab = htab_iterator_next(tab);
-                table->ptr[i] = tab.ptr;
-            }
-            i++;
-        }
-
-        htab_free(table);;
-        return 0;
     }
+
+    unsigned int i = 0;
+    size_t iterator = htab_bucket_count(table);
+    while (i < iterator){
+        while (table->ptr[i] != NULL){
+            tab.ptr = table->ptr[i];
+            printf("%s\t%d\n", htab_iterator_get_key(tab), htab_iterator_get_value(tab));
+            tab = htab_iterator_next(tab);
+            table->ptr[i] = tab.ptr;
+        }
+        i++;
+    }
+
+    htab_free(table);;
+    return 0;
 }
