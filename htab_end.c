@@ -1,4 +1,14 @@
+///////////////////////////////////////////////////////////////////////////
+///                                IJC DU2                              ///
+///                               htab_end.c                            ///
+///                              VUT FIT BRNO                           ///
+///                               12.4.2019                             ///
+///                        xvinar00@stud.fit.vutbr.cz                   ///
+///                             Peter Vinarcik                          ///
+///////////////////////////////////////////////////////////////////////////
+
 #include "htab.h"
+#include "htab_structures.h"
 
 htab_iterator_t htab_end(const htab_t * t)
 {

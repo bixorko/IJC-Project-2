@@ -1,7 +1,15 @@
 // htab.h -- rozhraní knihovny htab (řešení IJC-DU2)
 // Licence: žádná (Public domain)
 
-/// následující řádky zabrání násobnému vložení:
+///////////////////////////////////////////////////////////////////////////
+///                                IJC DU2                              ///
+///                                 htab.h                              ///
+///                              VUT FIT BRNO                           ///
+///                               12.4.2019                             ///
+///                        xvinar00@stud.fit.vutbr.cz                   ///
+///                             Peter Vinarcik                          ///
+///////////////////////////////////////////////////////////////////////////
+
 #ifndef __HTABLE_H__
 #define __HTABLE_H__
 
@@ -27,7 +35,6 @@ typedef struct htab_iterator {
 } htab_iterator_t;              // typedef podle zadání
 
 /// rozptylovací (hash) funkce
-// pokud si v programu definujete stejnou funkci, použije se ta vaše
 unsigned int htab_hash_function(const char *str);
 
 /// funkce pro práci s tabulkou:

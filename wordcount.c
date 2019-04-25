@@ -1,18 +1,15 @@
+///////////////////////////////////////////////////////////////////////////
+///                                IJC DU2                              ///
+///                               wordcount.c                           ///
+///                              VUT FIT BRNO                           ///
+///                               12.4.2019                             ///
+///                        xvinar00@stud.fit.vutbr.cz                   ///
+///                             Peter Vinarcik                          ///
+///////////////////////////////////////////////////////////////////////////
+
 #include "htab.h"
-#include "htab_init.c"
-#include "htab_free.c"
-#include "htab_clear.c"
-#include "htab_hash_function.c"
-#include "htab_lookup_add.c"
-#include "htab_end.c"
-#include "htab_begin.c"
-#include "htab_bucket_count.c"
-#include "htab_iterator_get_key.c"
-#include "htab_iterator_get_value.c"
-#include "htab_iterator_set_value.c"
-#include "htab_iterator_next.c"
-#include "htab_size.c"
 #include "io.c"
+#include "htab_structures.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -38,7 +35,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    while(get_word(s,128,f) != EOF){
+    while(get_word(s,127,f) != EOF){
         tab = htab_lookup_add(table, s);
         tab.ptr->data = (unsigned int)htab_iterator_set_value(tab,1);
         if (tab.ptr->key == NULL){
