@@ -20,7 +20,6 @@ htab_iterator_t htab_lookup_add(htab_t * t, const char *key)
             temp->t = t;
             temp->ptr = t->ptr[index];
             strcpy((char*)temp->ptr->key, (char*)key);
-            temp->ptr->data++;
             temp->ptr->next = item->next;
 
             return *temp;
@@ -44,7 +43,6 @@ htab_iterator_t htab_lookup_add(htab_t * t, const char *key)
 
     strcpy((char*)item->key, (char*)key);
     item->next = NULL;
-    item->data = 1;
 
     t->ptr[index] = item;
 

@@ -33,7 +33,7 @@ unsigned int htab_hash_function(const char *str);
 /// funkce pro práci s tabulkou:
 htab_t *htab_init(size_t n);
 
-//htab_t *htab_move(size_t n, htab_t *from);
+htab_t *htab_move(size_t n, htab_t *from);
 
 size_t htab_size(const htab_t * t);             // počet záznamů v tabulce
 
@@ -48,11 +48,17 @@ htab_iterator_t htab_end(const htab_t * t);
 htab_iterator_t htab_iterator_next(htab_iterator_t it);
 
 inline bool htab_iterator_valid(htab_iterator_t it) {
-    return it.ptr!=NULL;
+    if (it.ptr != NULL)
+        return true;
+
+    return false;
 }
 
 inline bool htab_iterator_equal(htab_iterator_t it1, htab_iterator_t it2) {
-    return it1.ptr==it2.ptr && it1.t == it2.t;
+    if (it1.ptr==it2.ptr && it1.t == it2.t)
+        return true;
+
+    return false;
 }
 
 const char * htab_iterator_get_key(htab_iterator_t it);

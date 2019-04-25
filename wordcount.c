@@ -4,13 +4,19 @@
 #include "htab_clear.c"
 #include "htab_hash_function.c"
 #include "htab_lookup_add.c"
+#include "htab_end.c"
+#include "htab_begin.c"
 #include "htab_bucket_count.c"
+#include "htab_iterator_get_key.c"
+#include "htab_iterator_get_value.c"
+#include "htab_iterator_set_value.c"
 #include "htab_iterator_next.c"
 #include "htab_size.c"
+#include "io.c"
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "io.c"
 
 int main(int argc, char **argv)
 {
@@ -34,6 +40,7 @@ int main(int argc, char **argv)
 
     while(get_word(s,128,f) != EOF){
         tab = htab_lookup_add(table, s);
+        tab.ptr->data = (unsigned int)htab_iterator_set_value(tab,1);
         if (tab.ptr->key == NULL){
             htab_free(table);
             fclose(f);
@@ -44,7 +51,8 @@ int main(int argc, char **argv)
     unsigned int i = 0;
     while (i < table->arr_size){
         while (table->ptr[i] != NULL){
-            printf("%s\t%d\n", table->ptr[i]->key, table->ptr[i]->data);
+            tab.ptr = table->ptr[i];
+            printf("%s\t%d\n", htab_iterator_get_key(tab), htab_iterator_get_value(tab));
             table->ptr[i] = table->ptr[i]->next;
         }
         i++;
